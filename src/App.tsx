@@ -12,6 +12,8 @@ import UpdateProduct from './pages/UpdateProduct';
 import ProductOneRestaurant from './pages/ProductOneRestaurant';
 import { CartContext } from './context/cartContext';
 import Shop from './pages/Shop';
+import OrderHistory from './pages/OrderHistory';
+import RestaurantHistory from './pages/RestaurantHistory';
 function App() {
     const [name, setName] = useState('');
     const [resName, setResName] = useState('')
@@ -70,6 +72,8 @@ function App() {
                         <Route path="/update-product" element={<UpdateProduct />} />
                         <Route path="/product-resturant" element={<ProductOneRestaurant />} />
                         <Route path="/cart" element={<Shop />} />
+                        <Route path="/order-history" element={<OrderHistory />} />
+                        <Route path="/restaurant-history" element={<RestaurantHistory />} />
 
 
 

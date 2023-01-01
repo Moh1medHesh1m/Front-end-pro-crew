@@ -15,13 +15,6 @@ function RestaurantHome() {
   const prevId = from
 
 
-  // useEffect(() => {
-  //   console.log(resId, '- Has changed')
-
-  //   setList([])
-  // console.log(list)
-
-  // }, [resId]) // <-- here put the parameter to listen
 
 
   useEffect(() => {
@@ -35,9 +28,7 @@ function RestaurantHome() {
         });
 
         const content = await response.json()
-        console.log(from)
-
-        console.log(content)
+    
         const data = content.map((element: any) => {
           return {
             id: element._id,
@@ -48,7 +39,7 @@ function RestaurantHome() {
 
         })
         setItem(data)
-        console.log(data)
+      
       }
     )(
 
@@ -65,15 +56,24 @@ function RestaurantHome() {
         });
 
         const content = await response.json();
-        console.log("sad", content)
-        console.log(content.username)
+    
         setName(content.username);
       }
     )();
   }, []);
 
 
+  const getLength = (obj: any): number => {
+    let count = 0;
 
+    // loop through each key/value
+    for (let key in obj) {
+
+      // increase the count
+      ++count;
+    }
+    return count
+  }
 
   return (
     <>
@@ -103,40 +103,41 @@ function RestaurantHome() {
                       {element.price}
                     </Card.Text>
 
-                    <Button variant="light" onClick={() => {
-                      console.log(list)
+                    <Button variant="light" onClick={async () => {
 
                       setTitle(element.title)
                       setPrice(element.price)
                       setResId(from)
-                      // if (resId != prevId) {
-                      //   list.empty()
-                      // }
-                      // console.log("sadadad"+list[list.length].resId )
-                      // console.log({ resId: from, list, boo: (list.length > 0), booboo: (list.length > 0) && list[list.length - 1].resId != from })
+
                       const newItem = {
                         id: element.id,
                         title: element.title,
                         price: element.price,
                         resId: from
-
                       };
-                      if (list.length > 0 && list[list.length - 1].resId != from) {
-                        console.log('aLERT ')
-                        // alert("NOt the same restruatn");
-                        const confirmation = window.confirm("Cant order from 2 resturant!, clear cart first?");
-                        if (confirmation) {
 
-                          setList([newItem])
-                          console.log('after empty ')
-                        } else {
-                          // do nothing
+                      const firstItemFrom = (Object.values(list)[0] as any)?.resId
+                      if (getLength(list) > 0 && firstItemFrom != from) {
+
+                        if (window.confirm("Cant order from 2 resturant!, clear cart first?")) {
+                          const temp = { [element.id]: { ...newItem, quantity: 1 } };
+                          await setList(temp)
                         }
-                      } else setList([...list, newItem])
+                      } else {
+
+
+                        if (element.id in list) {
+                          list[element.id].quantity += 1
+                          await setList(list)
+                        } else {
+                          list[element.id] = { ...newItem, quantity: 1 }
+                          await setList(list)
+                        }
+                        // setList([...list, newItem])
+                        alert("item added to cart ")
+                      }
 
                       console.log(list)
-
-                      console.log(resId)
                     }}>Add to cart</Button>
                   </Card.Body>
                 </Card>

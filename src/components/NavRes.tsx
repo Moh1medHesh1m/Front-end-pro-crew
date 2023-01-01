@@ -1,9 +1,8 @@
-import React from 'react';
 import {Link} from "react-router-dom";
 
-const Nav = (props: { name: string, setName: (name: string) => void }) => {
+const NavRes = (props: { name: string, setName: (name: string) => void }) => {
     const logout = async () => {
-        await fetch('http://localhost:8000/api/logout', {
+        await fetch('http://localhost:8000/restaurant/logout', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -42,9 +41,9 @@ const Nav = (props: { name: string, setName: (name: string) => void }) => {
         <nav className="navbar  navbar-dark bg-dark mb-4">
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">Home</Link>
-                <Link to="/" className="navbar-brand">{props.name}</Link>
-                <Link to="/cart" className="navbar-brand" style={{marginLeft:"50%"}}>cart</Link>
-                <Link to="/order-history " style={{marginLeft:"10%"}} className="navbar-brand">order-history</Link>
+                <Link to="/" className="navbar-brand">{"Welcome Restaurant Owner "+props.name}</Link>
+                <Link to={'/restaurant-history'}   className="navbar-brand" style={{textDecoration: 'none'}} >Restaurant order history</Link> 
+
                 <div>
                     {menu}
                 </div>
@@ -53,4 +52,4 @@ const Nav = (props: { name: string, setName: (name: string) => void }) => {
     );
 };
 
-export default Nav;
+export default NavRes;

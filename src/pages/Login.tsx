@@ -1,7 +1,7 @@
 import React, {SyntheticEvent, useState} from 'react';
 import { Button } from 'react-bootstrap';
 import {Link, Navigate } from "react-router-dom";
-
+import axios from 'axios'
 const Login = (props: { setName: (name: string) => void }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,8 +21,13 @@ const Login = (props: { setName: (name: string) => void }) => {
         });
 
         const content = await response.json();
-
-        setRedirect(true);
+        if(content.statusCode == 400 || content.statusCode == 401){
+            setRedirect(false);
+        }
+        else{
+            setRedirect(true);
+        }
+        
         console.log(content.jwt)
         props.setName(content.name);
     }
@@ -36,7 +41,7 @@ const Login = (props: { setName: (name: string) => void }) => {
         
         <><div style={{width:"50%",margin:"auto",height:"100%"}}>
         <form onSubmit={submit}>
-            <h1 className="h3 mb-3 fw-normal" style={{justifyContent:"center"}}>Please sign in</h1>
+            <h1 className="h3 mb-3 fw-normal" style={{justifyContent:"center"}}>User sign in</h1>
             <input type="email" className="form-control" placeholder="Email address" required
                    onChange={e => setUsername(e.target.value)}
             />

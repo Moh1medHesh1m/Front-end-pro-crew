@@ -1,5 +1,7 @@
 import React, {SyntheticEvent, useState} from 'react';
 import {Navigate} from 'react-router-dom';
+import axios from 'axios'
+
 function Restaurant() {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
@@ -18,17 +20,22 @@ function Restaurant() {
                 password,
                 type
             })
-        });
-        
-        setRedirect(true);
+        })
+
+     
+           setRedirect(true);
+
+       
     }
+   
 
     if (redirect) {
-        return <Navigate to="/restaurant-home"/>;
+        return <Navigate to="/"/>;
     }
 
-    return (
-        <form onSubmit={submit}>
+    return (<>
+        <div style={{width:"50%",margin:"auto",height:"100%"}}>
+        <form onSubmit={submit} style={{marginBottom:"20px"}}>
             <h1 className="h3 mb-3 fw-normal">Restaurant register</h1>
 
             <input  type="Name" className="form-control" placeholder="Name" required
@@ -45,8 +52,12 @@ function Restaurant() {
 
             <button className="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
         </form>
+        </div>
+        </>
     );
 };
 
 
 export default Restaurant
+
+

@@ -3,6 +3,7 @@ import React, { useState,useEffect} from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
+import NavRes from '../components/NavRes';
 function RestaurantHome() {
     const [name, setName] = useState('');
  
@@ -17,7 +18,7 @@ const [item, setItem] = useState([]as any)
                 });
 
                 const content = await response.json();
-               
+                
                 setName(content.name);
             }
         )();
@@ -60,16 +61,18 @@ const [item, setItem] = useState([]as any)
         };
         const response = await fetch(`http://localhost:8000/product/${id}`, requestOptions);
         const data = await response.json();
+        window.location.reload();
+
       
     }
   return (
     <>
-     <Nav name={name} setName={setName}/>
-    <div>{name}
+     <NavRes name={name} setName={setName}/>
+    {/* <div>{name}
     
-    </div>
+    </div> */}
 
-   
+    {/* <Link to={'/restaurant-history'}   className="navbar-brand" style={{textDecoration: 'none'}} >Restaurant order history</Link>  */}
 
     <div>
 
@@ -124,7 +127,9 @@ const [item, setItem] = useState([]as any)
     {/* 
 ))} */}
     </div>
-    <Button variant="light" ><Link to="/create-product" style={{textDecoration: 'none'}}  >Add Product</Link></Button> 
+    <div style={{width:"50%",margin:"auto",height:"100%" , marginTop:"40px" ,marginLeft:"50%"}}>
+    <Button variant="dark" style={{width:"20%"}}  ><Link to="/create-product" style={{textDecoration: 'none'}}  ><strong>Add Product</strong></Link></Button> 
+    </div>
    
     </>
   )
